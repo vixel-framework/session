@@ -35,12 +35,14 @@ class Session implements ArrayAccess, SessionInterface
     /**
      * Construct a new session interface.
      *
-     * @param \Zypto\Session\SessionManager The session manager.
+     * @param \Zypto\Session\SessionManager $sessionManager    The session manager.
+     * @param int                           $regenerationDelay The regeneration delay in minutes.
      *
      * @return never Returns nothing.
      */
     public function __construct(
-        public SessionManager $sessionManager
+        public SessionManager $sessionManager,
+        public int $regenerationDelay = 10,
     ) {
         $this->setName();
     }
@@ -59,6 +61,7 @@ class Session implements ArrayAccess, SessionInterface
         if (!$this->running()) {
             $this->sessionManager->resume($this->sessionName, $populateSessionGlobal);
         }
+        $this->runRegenerationDelay($this->regenerationDelay);
         return $this;
     }
 

@@ -35,8 +35,8 @@ class Session implements ArrayAccess, SessionInterface
     /**
      * Construct a new session interface.
      *
-     * @param \Zypto\Session\SessionManager $sessionManager           The session manager.
-     * @param int                           $regenerationDelay        The regeneration delay in minutes.
+     * @param \Zypto\Session\SessionManager $sessionManager    The session manager.
+     * @param int                           $regenerationDelay The regeneration delay in minutes.
      *
      * @return never Returns nothing.
      */

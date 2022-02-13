@@ -52,32 +52,35 @@ class Session implements ArrayAccess, SessionInterface
      *
      * @throws \RuntimeException If the session has an invalid state.
      *
-     * @return void Returns nothing.
+     * @return \Zypto\Session\SessionInterface Returns itself.
      */
-    public function initialize(bool $populateSessionGlobal = true): void
+    public function initialize(bool $populateSessionGlobal = true): SessionInterface
     {
         $this->sessionManager->resume($this->sessionName, $populateSessionGlobal);
+        return $this;
     }
 
     /**
      * Regenerate the session by generating a new session id.
      *
-     * @return void Returns nothing.
+     * @return \Zypto\Session\SessionInterface Returns itself.
      */
-    public function regenerate(bool $destoryOldSession = false): void
+    public function regenerate(bool $destoryOldSession = false): SessionInterface
     {
         $this->sessionManager->regenerateId($destroyOldSession);
+        return $this;
     }
 
     /**
      * Invalidates a currently running session.
      *
-     * @return void Returns nothing.
+     * @return \Zypto\Session\SessionInterface Returns itself.
      */
-    public function invalidate(): void
+    public function invalidate(): SessionInterface
     {
         $this->regenerate();
         $this->sessionManager->emptyContents();
+        return $this;
     }
 
     /**
@@ -85,11 +88,12 @@ class Session implements ArrayAccess, SessionInterface
      *
      * @param string $sessionName The session name to set.
      *
-     * @return void Returns nothing.
+     * @return \Zypto\Session\SessionInterface Returns itself.
      */
-    public function setName(string $sessionName = 'ZyptoSession'): void
+    public function setName(string $sessionName = 'ZyptoSession'): SessionInterface
     {
         $this->sessionName = $sessionName;
+        return $this;
     }
 
     /**
@@ -190,7 +194,7 @@ class Session implements ArrayAccess, SessionInterface
      *
      * @return void Returns nothing.
      */
-    public function set(mixed $key, mixed $value = null): void
+    public function set(mixed $key, ?mixed $value = null): void
     {
         $this->sessionManager->add($key, $value);
     }

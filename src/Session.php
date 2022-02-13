@@ -190,7 +190,7 @@ class Session implements ArrayAccess, SessionInterface
      *
      * @return void Returns nothing.
      */
-    public function set(mixed $key, ?mixed $value = null): void
+    public function set(mixed $key, mixed $value = null): void
     {
         $this->sessionManager->add($key, $value);
     }

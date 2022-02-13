@@ -58,7 +58,7 @@ class Session implements ArrayAccess, SessionInterface
      */
     public function initialize(bool $populateSessionGlobal = true): SessionInterface
     {
-        $this->setSuperglobalStatus($populateSessionGlobal)
+        $this->setSuperglobalStatus($populateSessionGlobal);
         if (!$this->running()) {
             $this->sessionManager->resume($this->sessionName, $populateSessionGlobal);
         }

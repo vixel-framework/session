@@ -46,7 +46,7 @@ class Session implements ArrayAccess, SessionInterface
     }
 
     /**
-     * Initializ a new session.
+     * Initialize a new session.
      *
      * @param bool $populateSessionGlobal Should we populate the session super global.
      *
@@ -59,6 +59,19 @@ class Session implements ArrayAccess, SessionInterface
         if (!$this->running()) {
             $this->sessionManager->resume($this->sessionName, $populateSessionGlobal);
         }
+        return $this;
+    }
+
+    /**
+     * Release the session and finish the session state.
+     *
+     * @throws \RuntimeException If the session has an invalid state.
+     *
+     * @return \Zypto\Session\SessionInterface Returns itself.
+     */
+    public function release(): SessionInterface
+    {
+        $this->sessionManager->stop();
         return $this;
     }
 
@@ -106,6 +119,19 @@ class Session implements ArrayAccess, SessionInterface
     public function running(): bool
     {
         return $this->sessionManager->started();
+    }
+
+    /**
+     * Discard any changes made to the session.
+     *
+     * @param bool $finishSession Should we finish the session state.
+     *
+     * @return \Zypto\Session\SessionInterface Returns itself.
+     */
+    public function discard(bool $finishSession = false): SessionInterface
+    {
+        $this->sessionManager->abort($finishSession);
+        return $this;
     }
 
     /**

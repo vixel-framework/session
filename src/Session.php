@@ -46,9 +46,9 @@ class Session implements ArrayAccess, SessionInterface
     }
 
     /**
-     * Set the session name.
+     * Initializ a new session.
      *
-     * @param string $sessionName The session name to set.
+     * @param bool $populateSessionGlobal Should we populate the session super global.
      *
      * @throws \RuntimeException If the session has an invalid state.
      *
@@ -56,7 +56,9 @@ class Session implements ArrayAccess, SessionInterface
      */
     public function initialize(bool $populateSessionGlobal = true): SessionInterface
     {
-        $this->sessionManager->resume($this->sessionName, $populateSessionGlobal);
+        if (!$this->running()) {
+            $this->sessionManager->resume($this->sessionName, $populateSessionGlobal);
+        }
         return $this;
     }
 
@@ -94,6 +96,16 @@ class Session implements ArrayAccess, SessionInterface
     {
         $this->sessionName = $sessionName;
         return $this;
+    }
+
+    /**
+     * Check to see if a session is running.
+     *
+     * @return bool Returns true if a session is running and false if not.
+     */
+    public function running(): bool
+    {
+        return $this->sessionManager->started();
     }
 
     /**
